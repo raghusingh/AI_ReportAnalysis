@@ -1,0 +1,274 @@
+# ============================================================
+#  DASHBOARD PROMPT FILE
+#  Define your dashboard pages, sections, KPIs and charts here.
+#  Gemini will map these definitions to your Excel data automatically.
+#  You can edit this file without touching any Python code.
+# ============================================================
+
+dashboard:
+  title: "Project Portfolio Dashboard"
+  subtitle: "AI-powered insights across all projects and sprints"
+  logo_emoji: "📊"
+
+# ── PAGES ────────────────────────────────────────────────────
+# Each page becomes a tab in the dashboard.
+# Sections within a page are rendered top-to-bottom.
+
+pages:
+
+  # ── PAGE 1: Executive Summary ─────────────────────────────
+  - id: executive_summary
+    title: "Executive Summary"
+    icon: "🏢"
+    sections:
+
+      - type: kpi_row
+        title: "Portfolio Overview"
+        kpis:
+          - label: "Total Projects"
+            description: "Count of all active projects"
+            hint: "count of unique projects"
+
+          - label: "Total Resources"
+            description: "Headcount across all projects"
+            hint: "total number of resources or people"
+
+          - label: "OnShore Resources"
+            description: "Resources based onshore"
+            hint: "count of onshore resources"
+
+          - label: "OffShore Resources"
+            description: "Resources based offshore"
+            hint: "count of offshore resources"
+
+      - type: kpi_row
+        title: "Delivery Metrics"
+        kpis:
+          - label: "Total Stories"
+            description: "All user stories across sprints"
+            hint: "total count of user stories"
+
+          - label: "Total Story Points"
+            description: "Sum of all story points"
+            hint: "sum of story points"
+
+          - label: "Total Sprints"
+            description: "Number of sprints completed or active"
+            hint: "count of sprints"
+
+          - label: "Avg Velocity"
+            description: "Average story points per sprint"
+            hint: "average velocity or story points per sprint"
+
+      - type: kpi_row
+        title: "Quality Metrics"
+        kpis:
+          - label: "Production Bugs"
+            description: "Bugs found in production"
+            hint: "count of production bugs or P1/P2 bugs"
+
+          - label: "Lower Env Bugs"
+            description: "Bugs in dev/qa/staging"
+            hint: "count of bugs in lower environments like dev, qa, uat"
+
+          - label: "Bug Resolution Rate"
+            description: "Percentage of bugs resolved"
+            hint: "percentage of resolved or closed bugs"
+
+          - label: "Open Blockers"
+            description: "Critical blockers currently open"
+            hint: "count of open blockers or critical issues"
+
+      - type: chart_row
+        title: "Velocity & Project Status"
+        charts:
+          - title: "Sprint Velocity Trend"
+            type: "line"
+            description: "Story points completed per sprint over time"
+            hint: "velocity or story points completed per sprint, trend over sprints"
+
+          - title: "Project Status Distribution"
+            type: "pie"
+            description: "Count of projects by RAG status (Green/Amber/Red)"
+            hint: "project status breakdown as Green Amber Red or RAG status"
+
+  # ── PAGE 2: Sprint Data Visualization ────────────────────
+  - id: sprint_data
+    title: "Sprint Data"
+    icon: "🏃"
+    sections:
+
+      - type: kpi_row
+        title: "Sprint Summary"
+        kpis:
+          - label: "Current Sprint"
+            description: "Active sprint name or number"
+            hint: "current or latest sprint name/number"
+
+          - label: "Sprint Stories"
+            description: "Stories in current sprint"
+            hint: "stories in the current sprint"
+
+          - label: "Completed Points"
+            description: "Story points completed this sprint"
+            hint: "completed story points in current sprint"
+
+          - label: "Remaining Points"
+            description: "Story points yet to complete"
+            hint: "remaining or pending story points"
+
+      - type: chart_row
+        title: "Sprint Breakdown"
+        charts:
+          - title: "Stories by Sprint"
+            type: "bar"
+            description: "Total stories per sprint — planned vs completed"
+            hint: "stories per sprint, planned vs completed or total"
+
+          - title: "Story Points by Sprint"
+            type: "bar"
+            description: "Story points committed vs delivered each sprint"
+            hint: "story points committed vs delivered per sprint"
+
+      - type: chart_row
+        title: "Sprint Detail"
+        charts:
+          - title: "Sprint Burndown"
+            type: "line"
+            description: "Remaining work over days in sprint"
+            hint: "burndown chart, remaining story points or tasks by day"
+
+          - title: "Stories by Status"
+            type: "pie"
+            description: "Breakdown of stories by status (To Do / In Progress / Done)"
+            hint: "story status distribution todo in-progress done"
+
+  # ── PAGE 3: Velocity ─────────────────────────────────────
+  - id: velocity
+    title: "Velocity"
+    icon: "⚡"
+    sections:
+
+      - type: kpi_row
+        title: "Velocity Overview"
+        kpis:
+          - label: "Avg Velocity"
+            description: "Mean story points per sprint"
+            hint: "average velocity"
+
+          - label: "Peak Velocity"
+            description: "Highest sprint velocity recorded"
+            hint: "maximum velocity or highest story points in a sprint"
+
+          - label: "Lowest Velocity"
+            description: "Lowest sprint velocity recorded"
+            hint: "minimum velocity"
+
+          - label: "Velocity Trend"
+            description: "Improving / Stable / Declining"
+            hint: "velocity trend direction"
+
+      - type: chart_row
+        title: "Velocity Analysis"
+        charts:
+          - title: "Velocity Over Time"
+            type: "area"
+            description: "Sprint velocity trend with area fill"
+            hint: "velocity per sprint over time trend"
+
+          - title: "Committed vs Completed"
+            type: "bar"
+            description: "Planned story points vs actually completed per sprint"
+            hint: "committed story points vs completed story points per sprint"
+
+      - type: chart_row
+        title: "Velocity Deep Dive"
+        charts:
+          - title: "Velocity by Team / Project"
+            type: "bar"
+            description: "Compare velocity across teams or projects"
+            hint: "velocity comparison by team or project"
+
+          - title: "Story Point Distribution"
+            type: "histogram"
+            description: "Distribution of story sizes"
+            hint: "story point size distribution histogram"
+
+  # ── PAGE 4: Resource Utilization ─────────────────────────
+  - id: resource_utilization
+    title: "Resources"
+    icon: "👥"
+    sections:
+
+      - type: kpi_row
+        title: "Resource Summary"
+        kpis:
+          - label: "Total Resources"
+            description: "All resources across projects"
+            hint: "total headcount"
+
+          - label: "Avg Utilization"
+            description: "Mean utilization percentage"
+            hint: "average utilization percentage"
+
+          - label: "Over-allocated"
+            description: "Resources above 100% allocation"
+            hint: "count of over-allocated or over-utilized resources"
+
+          - label: "Bench / Available"
+            description: "Resources with capacity available"
+            hint: "bench count or available resources"
+
+      - type: chart_row
+        title: "Allocation Overview"
+        charts:
+          - title: "OnShore vs OffShore"
+            type: "pie"
+            description: "Resource split by location"
+            hint: "onshore vs offshore resource count"
+
+          - title: "Resource Utilization %"
+            type: "bar"
+            description: "Utilization percentage per resource or team"
+            hint: "utilization percentage by resource or team"
+
+      - type: chart_row
+        title: "Resource Distribution"
+        charts:
+          - title: "Resources by Project"
+            type: "bar"
+            description: "Headcount allocated to each project"
+            hint: "resource count per project"
+
+          - title: "Utilization Trend"
+            type: "line"
+            description: "Average team utilization over time"
+            hint: "utilization trend over sprints or months"
+
+  # ── PAGE 5: Project Status ────────────────────────────────
+  - id: project_status
+    title: "Project Status"
+    icon: "🚦"
+    sections:
+
+      - type: status_grid
+        title: "RAG Status Overview"
+        description: "Green = On Track | Amber = At Risk | Red = Critical"
+        hint: "project name with rag status green amber red"
+
+      - type: chart_row
+        title: "Status Trends"
+        charts:
+          - title: "Status Over Time"
+            type: "line"
+            description: "How many projects were Green/Amber/Red each sprint"
+            hint: "project status count green amber red per sprint over time"
+
+          - title: "Risk Distribution"
+            type: "bar"
+            description: "Projects grouped by current risk level"
+            hint: "project count by risk or status category"
+
+      - type: insight_panel
+        title: "AI Risk Analysis"
+        description: "Gemini-generated observations about project health"

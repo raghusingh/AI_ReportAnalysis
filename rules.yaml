@@ -1,0 +1,157 @@
+# ============================================================
+#  DASHBOARD RULES FILE
+#  Controls how Gemini interprets data and renders the dashboard.
+#  Edit these rules to change system behaviour without touching code.
+# ============================================================
+
+# ── GEMINI BEHAVIOUR ─────────────────────────────────────────
+gemini:
+  model: "gemini-2.5-flash-lite-preview-06-17"          # or "gemini-1.5-pro" for better accuracy
+  temperature: 0.2                    # lower = more deterministic mapping
+  max_tokens: 4096
+
+  # How strictly Gemini must match column names
+  # strict  = exact match required
+  # fuzzy   = allow partial / synonym matching (recommended)
+  # smart   = use semantic understanding (best, slightly slower)
+  column_matching: "smart"
+
+  # If a KPI or chart cannot be mapped to the data, what to do:
+  # skip    = hide it silently
+  # placeholder = show "Data not available"
+  # ask     = prompt user to map manually
+  on_missing_data: "placeholder"
+
+# ── KPI COMPUTATION RULES ────────────────────────────────────
+kpi_rules:
+
+  # Default aggregation when none can be inferred
+  default_aggregation: "sum"
+
+  # Number formatting thresholds
+  formatting:
+    millions_threshold: 1000000      # show as 1.2M above this
+    thousands_threshold: 1000        # show as 1.2K above this
+    decimal_places: 1
+    percentage_symbol: "%"
+    currency_symbol: ""              # set to "$" or "₹" if needed
+
+  # Special computed KPIs (system will auto-detect and compute these)
+  computed:
+    - name: "OnShore vs OffShore Ratio"
+      formula: "onshore_count / total_resources * 100"
+
+    - name: "Bug Resolution Rate"
+      formula: "resolved_bugs / total_bugs * 100"
+      suffix: "%"
+
+    - name: "Velocity Trend"
+      formula: "compare last 3 sprints vs previous 3 sprints"
+      output: "text"   # returns "Improving", "Stable", or "Declining"
+
+    - name: "Avg Velocity"
+      formula: "mean of completed story points per sprint"
+
+# ── CHART RENDERING RULES ────────────────────────────────────
+chart_rules:
+
+  # Maximum data points before aggregation kicks in
+  max_bar_items: 15
+  max_line_points: 50
+  max_pie_slices: 8
+
+  # Color scheme for charts
+  color_scheme:
+    primary:   "#7c3aed"
+    secondary: "#059669"
+    tertiary:  "#2563eb"
+    warning:   "#d97706"
+    danger:    "#dc2626"
+    palette:
+      - "#7c3aed"
+      - "#059669"
+      - "#2563eb"
+      - "#d97706"
+      - "#dc2626"
+      - "#0891b2"
+      - "#ea580c"
+      - "#9333ea"
+
+  # RAG status color mapping (used in status_grid and pie charts)
+  rag_colors:
+    green:  "#16a34a"
+    amber:  "#d97706"
+    red:    "#dc2626"
+    grey:   "#6b7280"    # for unknown/not started
+
+  # Chart background
+  background_color: "#ffffff"
+  grid_color: "#f0f0f5"
+
+# ── PAGE RENDERING RULES ─────────────────────────────────────
+page_rules:
+
+  # Section types and how they render
+  section_types:
+    kpi_row:
+      columns: 4              # KPIs per row
+      show_trend_arrow: true  # show ↑ ↓ next to values if previous period exists
+
+    chart_row:
+      columns: 2              # charts per row
+      height_px: 380
+
+    status_grid:
+      columns: 3              # project cards per row
+      show_health_bar: true   # coloured progress bar per project
+
+    insight_panel:
+      max_insights: 5
+      style: "cards"          # "cards" or "bullets"
+
+  # Whether to show section titles
+  show_section_titles: true
+
+  # Whether to show AI-generated descriptions under charts
+  show_chart_descriptions: true
+
+# ── DATA MAPPING RULES ───────────────────────────────────────
+data_rules:
+
+  # Column name synonyms — helps Gemini find the right column
+  # Add your own column names here if your Excel uses custom names
+  synonyms:
+    project:        ["project", "project_name", "proj", "initiative", "programme"]
+    sprint:         ["sprint", "sprint_name", "iteration", "sprint_no", "sprint_number"]
+    story_points:   ["story_points", "sp", "points", "effort", "estimate"]
+    velocity:       ["velocity", "completed_points", "done_points", "delivered_sp"]
+    status:         ["status", "rag", "rag_status", "health", "project_status", "state"]
+    resource:       ["resource", "resource_name", "employee", "person", "member", "name"]
+    onshore:        ["onshore", "on_shore", "onsite", "on_site", "location_onshore"]
+    offshore:       ["offshore", "off_shore", "remote", "location_offshore"]
+    bug:            ["bug", "defect", "issue", "incident"]
+    production_bug: ["production_bug", "prod_bug", "p1", "p2", "live_bug", "production_defect"]
+    utilization:    ["utilization", "utilisation", "allocation", "capacity_used", "util_%"]
+    stories:        ["stories", "user_stories", "backlog_items", "tickets", "tasks"]
+
+  # Date column detection — used for time-series charts
+  date_columns:
+    patterns: ["date", "month", "week", "sprint_date", "created", "updated"]
+
+  # If multiple sheets have the same concept, merge them
+  auto_merge: true
+
+# ── EXPORT RULES (PPT) ───────────────────────────────────────
+export_rules:
+
+  pptx:
+    theme: "dark"             # "dark" or "light"
+    slide_size: "widescreen"  # "widescreen" (16:9) or "standard" (4:3)
+    include_pages:
+      - executive_summary
+      - sprint_data
+      - velocity
+      - resource_utilization
+      - quality_metrics
+    include_ai_notes: true    # add speaker notes with AI insights
+    company_name: ""          # shown in footer — leave blank if not needed
