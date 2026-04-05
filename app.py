@@ -245,7 +245,8 @@ def _auto_map_all_pages(dfs):
             ex_kpis.append(_mk_kpi("OnShore Resources",sh,loc,"count",desc="Onshore count"))
             ex_kpis.append(_mk_kpi("OffShore Resources",sh,loc,"count",desc="Offshore count"))
             break
-    df_s = sprint_df or first_df; sh_s = sprint_sheet or first_sheet
+    df_s = sprint_df if sprint_df is not None else first_df
+    sh_s = sprint_sheet if sprint_sheet is not None else first_sheet
     if df_s is not None:
         sc  = _find_col(df_s,"story_id","ticket_id","story_name","story","ticket","backlog","task_id","task","issue_id")
         sp  = _find_col(df_s,"story_point","storypoint","sp","points","estimate","effort","size")
@@ -315,7 +316,8 @@ def _auto_map_all_pages(dfs):
 
     # ── RESOURCES ─────────────────────────────────────────────
     res_kpis, res_charts = [], []
-    df_r = resource_df or first_df; sh_r = resource_sheet or first_sheet
+    df_r = resource_df if resource_df is not None else first_df
+    sh_r = resource_sheet if resource_sheet is not None else first_sheet
     if df_r is not None:
         name = _find_col(df_r,"resource_name","employee","person","member","name","resource","staff")
         util = _find_col(df_r,"utiliz","alloc","capacity_used","util_percent","util_%","percentage")
@@ -336,7 +338,8 @@ def _auto_map_all_pages(dfs):
 
     # ── QUALITY ───────────────────────────────────────────────
     bug_kpis, bug_charts = [], []
-    df_b = bug_df or first_df; sh_b = bug_sheet or first_sheet
+    df_b = bug_df if bug_df is not None else first_df
+    sh_b = bug_sheet if bug_sheet is not None else first_sheet
     if df_b is not None:
         bid  = _find_col(df_b,"bug_id","defect_id","issue_id","id","ticket_id","number")
         env  = _find_col(df_b,"environment","env","area","level","tier")
